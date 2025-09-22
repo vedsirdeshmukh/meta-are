@@ -12,7 +12,7 @@ requires-python = "==3.10.*"
 dynamic = ["dependencies", "optional-dependencies"]
 
 [project.urls]
-Homepage = "https://github.com/facebookresearch/meta-agents-research-environments/"
+Homepage = "https://facebookresearch.github.io/meta-agents-research-environments/"
 Repository = "https://github.com/facebookresearch/meta-agents-research-environments.git"
 
 [project.scripts]
