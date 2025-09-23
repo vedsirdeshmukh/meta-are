@@ -196,5 +196,13 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you use Meta Agents Research Environments in your work, please cite:
 
 ```bibtex
-TODO
+@misc{andrews2025arescalingagentenvironments,
+      title={ARE: Scaling Up Agent Environments and Evaluations},
+      author={Pierre Andrews and Amine Benhalloum and Gerard Moreno-Torres Bertran and Matteo Bettini and Amar Budhiraja and Ricardo Silveira Cabral and Virginie Do and Romain Froger and Emilien Garreau and Jean-Baptiste Gaya and Hugo Laurençon and Maxime Lecanu and Kunal Malkan and Dheeraj Mekala and Pierre Ménard and Grégoire Mialon and Ulyana Piterbarg and Mikhail Plekhanov and Mathieu Rita and Andrey Rusakov and Thomas Scialom and Vladislav Vorotilov and Mengjue Wang and Ian Yu},
+      year={2025},
+      eprint={2509.17158},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2509.17158},
+}
 ```
