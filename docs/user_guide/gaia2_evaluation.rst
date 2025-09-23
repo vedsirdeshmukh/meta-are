@@ -91,6 +91,7 @@ Gaia2 evaluates seven core agent capabilities with equal weight in the final sco
     Robustness to environment instability, API changes, and random failures. Evaluated on the Gaia2-mini subset.
 
 **Dataset Structure:**
+
 - **Validation set**: 800 standard scenarios (5×160 per capability) + 320 augmentation scenarios (2×160 mini)
 - **Final scoring**: Each of the 7 capabilities receives equal weight, with global scores reported for test sets to address variance from smaller sample sizes.
 
@@ -104,6 +105,7 @@ The Gaia2 evaluation process follows these key steps:
 3. **Submission**: Upload traces and JSON report to the leaderboard
 
 **Important Notes:**
+
 - The test set is entirely private and reserved for internal validation by Meta/Hugging Face
 - All leaderboard submissions are made using the validation set on a voluntary, non-controlled basis
 - Researchers must respect the benchmark integrity and avoid using validation data for training
@@ -226,6 +228,7 @@ The validation split contains oracle events that enable judge-based evaluation f
      --limit 20
 
 **Available Configurations:**
+
 - ``mini``: Gaia2-mini (160 scenarios across all capabilities)
 - ``execution``: Execution scenarios only
 - ``search``: Search scenarios only

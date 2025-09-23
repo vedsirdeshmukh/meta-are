@@ -12,6 +12,7 @@
 **File**: ``are/simulation/scenarios/scenario_apps_tutorial/scenario.py``
 
 **Concepts Covered**:
+
 - Data model design with dataclasses and enums
 - App class structure and inheritance patterns
 - Tool method registration and decorators
@@ -108,6 +109,7 @@ benchmarks.
 4. **Integration Layer**: Event registration and environment hooks
 
 **Key Takeaways**:
+
 - How to design robust data models with proper validation
 - App lifecycle management (initialization, state, reset)
 - Tool registration patterns and decorator usage

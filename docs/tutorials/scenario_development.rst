@@ -51,13 +51,13 @@ First, create a class that inherits from the ``Scenario`` base class and decorat
        """
        A custom scenario that demonstrates email and calendar integration.
        """
-       scenario_id: str = "my_custom_scenario"
        start_time: float | None = 0
        duration: float | None = 600  # Duration in seconds
 
        def init_and_populate_apps(self):
            """Initialize and populate apps with data."""
            # Create apps
+           aui = AgentUserInterface()
            email_app = EmailClientApp()
            calendar_app = CalendarApp()
 
@@ -72,14 +72,14 @@ First, create a class that inherits from the ``Scenario`` base class and decorat
            )
 
            # Add calendar events
-            calendar_app.add_calendar_event(
+           calendar_app.add_calendar_event(
                 title="Team Standup"
                 start_datetime="2024-01-15 09:00:00"
                 end_datetime="2024-01-15 09:30:00"
-            )
+           )
 
            # Register apps
-           self.apps = [email_app, calendar_app]
+           self.apps = [email_app, calendar_app, aui]
 
        def build_events_flow(self):
            """Define the sequence of events in the scenario."""
@@ -493,37 +493,45 @@ Here's a complete example of a scenario package structure:
 
            # Add sample emails
            self.email_app.add_email(
-               from_addr="boss@company.com",
-               subject="Urgent: Project Deadline",
-               body="The project deadline has been moved up. Please confirm receipt."
+                email=Email(
+                    sender="boss@company.com",
+                    recipients=[self.email_app.user_email],
+                    subject="Urgent: Project Deadline",
+                    content="The project deadline has been moved up. Please confirm receipt.",
+                ),
            )
 
            self.email_app.add_email(
-               from_addr="spam@marketing.com",
-               subject="Amazing Deal! Click Now!",
-               body="Limited time offer! Buy now and save 90%!"
+                email=Email(
+                    sender="spam@marketing.com",
+                    recipients=[self.email_app.user_email],
+                    subject="Amazing Deal! Click Now!",
+                    content="Limited time offer! Buy now and save 90%!",
+                ),
            )
 
            self.apps = [self.email_app]
 
        def build_events_flow(self):
-           # Agent should read and respond to urgent email
-           self.add_event(
-               app_name="EmailClientApp",
-               function_name="send_email",
-               parameters={
-                   "to": "boss@company.com",
-                   "subject": "Re: Urgent: Project Deadline",
-                   "body": "Received and understood. Will adjust timeline accordingly."
-               },
-               predecessor_event_ids=[],
-               event_type=EventType.AGENT
-           )
+            aui = self.get_typed_app(AgentUserInterface)
+            email_client = self.get_typed_app(EmailClientApp)
+
+            with EventRegisterer.capture_mode():
+                # User asks agent to read emails
+                event1 = aui.send_message_to_agent(
+                    content="Read my emails and respond to the urgent one."
+                ).depends_on(None, delay_seconds=5)
+                # Agent respond to urgent email
+                event2 =  email_client.send_email(
+                    recipients=["boss@company.com"],
+                    subject="Re: Urgent: Project Deadline",
+                    body="Received and understood. Will adjust timeline accordingly.",
+                ).oracle().depends_on(event1, delay_seconds=5)
 
        def validate(self, env) -> ScenarioValidationResult:
            try:
                email_app = env.get_app("EmailClientApp")
-               sent_emails = email_app.get_sent_emails()
+               sent_emails = email_app.folders[EmailFolderName.SENT].emails
 
                # Check if response was sent
                success = any("Re: Urgent" in email.subject for email in sent_emails)

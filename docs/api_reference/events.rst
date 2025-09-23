@@ -80,7 +80,7 @@ The environment manages events through two main data structures:
    env.schedule(event)
 
    # Access event history
-   completed_events = env.event_log
+   completed_events = env.event_log.list_view()
 
 Event Graph Nodes
 -----------------

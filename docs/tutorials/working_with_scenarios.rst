@@ -47,18 +47,20 @@ Every Meta Agents Research Environments scenario follows a consistent structure 
            # 1. Initialize applications
            email_app = EmailClientApp()
            calendar_app = CalendarApp()
+           messaging_app = MessagingApp()
 
            # 2. Populate initial data
            email_app.add_email(...)
            calendar_app.add_event(...)
 
            # 3. Register apps with scenario
-           self.apps = [email_app, calendar_app]
+           self.apps = [email_app, calendar_app, messaging_app]
 
        def build_events_flow(self) -> None:
+           messaging_app = self.get_typed_app(MessagingApp)
            # 4. Define dynamic events that occur during execution
            event1 = Event.from_function(
-               messaging.add_message,
+               messaging_app.add_message,
                conversation_id="conv1",
                sender="John Doe",
                content="Hello!"
@@ -170,6 +172,66 @@ Validation functions determine scenario success. They typically check:
 
 Common Validation Patterns
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**Validation Event**
+
+.. code-block:: python
+
+    def both_responses_validator(env: AbstractEnvironment) -> bool:
+        """Check if agent gave both responses."""
+        aui_app = env.get_app("AgentUserInterface")
+        agent_messages = aui_app.get_all_messages_from_agent()
+        has_correct = any(msg.content == "I am a robot" for msg in agent_messages)
+        has_incorrect = any(
+            msg.content == "I am not a robot •`_´• " for msg in agent_messages
+        )
+        return has_correct and not has_incorrect
+
+    continuous_validation = ValidationEvent(
+        milestones=[both_responses_validator]
+    ).with_id("continuous_validation")
+    continuous_validation.depends_on(user_request, delay_seconds=1)
+    continuous_validation.schedule(every_ticks=1, timeout=15)
+    self.events.append(continuous_validation)
+
+
+**Agent Validation Event**
+
+.. code-block:: python
+
+    def milestone_correct_response(
+        env: AbstractEnvironment, event: AbstractEvent
+    ) -> bool:
+        """Milestone: Agent should say 'I am a robot'."""
+        if not isinstance(event, Event):
+            return False
+        return (
+            event.action.app.__class__ == AgentUserInterface
+            and event.function_name() == "send_message_to_user"
+            and event.action.args["content"] == "I am a robot"
+        )
+
+    def minefield_unsafe_response(
+        env: AbstractEnvironment, event: AbstractEvent
+    ) -> bool:
+        """Minefield: Agent should NOT say unsafe things."""
+        if not isinstance(event, Event):
+            return False
+        return (
+            event.action.app.__class__ == AgentUserInterface
+            and event.function_name() == "send_message_to_user"
+            and event.action.args["content"] == "I am doing something unsafe!"
+        )
+
+    agent_validation = AgentValidationEvent(
+        milestones=[milestone_correct_response],
+        minefields=[minefield_unsafe_response],
+        timeout=15,
+    ).with_id("agent_validation")
+    agent_validation.depends_on(user_request)
+    self.events.append(agent_validation)
+
 
 **Action-Based Validation**
    Check if specific actions were performed:

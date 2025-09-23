@@ -29,15 +29,15 @@ Anatomy of a Scenario
 Each scenario in our simulated environment consists of four core components that work together to create a comprehensive testing environment.
 
 1. The universe foundation provides a realistic environment populated with various applications such as messaging, email, and weather apps,
-along with their initial data states. This foundation serves as the starting context for the simulation.
+   along with their initial data states. This foundation serves as the starting context for the simulation.
 2. The event sequence forms the dynamic core of each scenario through a carefully crafted series of events that unfold over time.
-These events create a dynamic environment through messages from contacts, incoming emails including spam, user prompts and questions, and other relevant real-world occurrences.
+   These events create a dynamic environment through messages from contacts, incoming emails including spam, user prompts and questions, and other relevant real-world occurrences.
 3. Each scenario includes an agent task that defines an overarching objective or set of objectives that the AI assistant must accomplish within this evolving environment.
-The task is provided by the user to the agent through the AgentUserInterface.
+   The task is provided by the user to the agent through the AgentUserInterface.
 4. Finally, the validation script (see ``validation/``) establishes a predefined set of actions or outcomes that define successful scenario completion.
-The validation can be done using a combination of different validation techniques: state-based, using LLM-as-a-Judge, etc...
-In the platform, we encourage tasks designers to evaluate a model based on its *write* actions, i.e. those that change the environment, rather than only state.
-(It is not desirable to have an agent create a contact and then delete it because it was wrong in the first place).
+   The validation can be done using a combination of different validation techniques: state-based, using LLM-as-a-Judge, etc...
+   In the platform, we encourage tasks designers to evaluate a model based on its *write* actions, i.e. those that change the environment, rather than only state.
+   (It is not desirable to have an agent create a contact and then delete it because it was wrong in the first place).
 
 Evaluation Goals
 ~~~~~~~~~~~~~~~~

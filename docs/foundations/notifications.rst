@@ -63,4 +63,4 @@ exploration of how notification timing, prioritization, and context integration 
 
 
 **Next Steps**
-    * Keep reading the Foundations guide to learn more about :doc:`universes`.
+    * Keep reading the Foundations guide to learn more about :doc:`scenarios`.

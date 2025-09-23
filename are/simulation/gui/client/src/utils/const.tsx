@@ -20,8 +20,7 @@ export const HF_ORG_URL: string =
 export const HF_DATASET_URL: string =
   "https://huggingface.co/datasets/meta-agents-research-environments/gaia2";
 
-export const ARXIV_URL: string =
-  "https://ai.meta.com/research/publications/are-scaling-up-agent-environments-and-evaluations/"; // TODO replace with arxiv url
+export const ARXIV_URL: string = "https://arxiv.org/abs/2509.17158";
 
 export const DOC_URL: string =
   "https://facebookresearch.github.io/meta-agents-research-environments/";
