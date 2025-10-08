@@ -1,7 +1,7 @@
 ..
     Copyright (c) Meta Platforms, Inc. and affiliates.
     All rights reserved.
-    
+
     This source code is licensed under the terms described in the LICENSE file in
     the root directory of this source tree.
 
@@ -50,7 +50,7 @@ Base Agent Structure
 .. code-block:: python
 
    from are.simulation.agents.default_agent.base_agent import BaseAgent, ConditionalStep
-   from are.simulation.agents.default_agent.tools.action_executor.json_action_executor import JsonActionExecutor
+   from are.simulation.agents.default_agent.tools.json_action_executor import JsonActionExecutor
 
    class MyCustomAgent(BaseAgent):
        def __init__(self, llm_engine, **kwargs):
