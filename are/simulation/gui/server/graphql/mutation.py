@@ -8,6 +8,7 @@
 import json
 
 import strawberry
+from strawberry.scalars import JSON
 
 from are.simulation.gui.server.graphql.common import make_async
 from are.simulation.gui.server.graphql.subscription import clear_graphql_cache
@@ -17,7 +18,6 @@ from are.simulation.gui.server.graphql.types import (
 )
 from are.simulation.types import EventTimeComparator, EventType
 from are.simulation.utils import make_serializable
-from strawberry.scalars import JSON
 
 
 @strawberry.type
@@ -54,7 +54,9 @@ class Mutation:
     @strawberry.mutation
     @make_async
     def set_agent_name(
-        self, agent_id: str | None, session_id: str  # type: ignore
+        self,
+        agent_id: str | None,
+        session_id: str,  # type: ignore
     ) -> JSON | None:  # type: ignore
         """Set the agent name for a simulation session.
 
@@ -74,7 +76,9 @@ class Mutation:
     @strawberry.mutation
     @make_async
     def set_agent_config(
-        self, agent_config: JSON | None, session_id: str  # type: ignore
+        self,
+        agent_config: JSON | None,  # type: ignore
+        session_id: str,  # type: ignore
     ) -> JSON | None:  # type: ignore
         """Set the agent configuration for a simulation session.
 

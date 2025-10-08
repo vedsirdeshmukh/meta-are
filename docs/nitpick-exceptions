@@ -185,3 +185,4 @@ py:class are.simulation.validation.constants.ToolSoftCheckerTypeRegistry
 # python
 py:class type
 py:class shuffle
+py:data typing.Union

@@ -8,6 +8,7 @@
 import os
 
 import strawberry
+from strawberry.scalars import JSON
 
 from are.simulation.gui.server.graphql.common import make_async
 from are.simulation.gui.server.graphql.types import (
@@ -18,7 +19,6 @@ from are.simulation.gui.server.graphql.types import (
 )
 from are.simulation.gui.server.scenarios import GUI_SCENARIOS
 from are.simulation.types import CapabilityTag
-from strawberry.scalars import JSON
 
 
 @strawberry.type
