@@ -287,7 +287,12 @@ class TerminableProcessPoolExecutor:
             max_workers = (os.cpu_count() or 1) + 4
 
         self._max_workers = max_workers
-        self._mp_context = multiprocessing
+        # Use fork context on Unix systems to avoid semaphore issues on macOS
+        try:
+            self._mp_context = multiprocessing.get_context("fork")
+        except RuntimeError:
+            # Fall back to default context if fork is not available (e.g., on Windows)
+            self._mp_context = multiprocessing
         self._shutdown = False
         self._active_futures = set()
         self._lock = threading.Lock()

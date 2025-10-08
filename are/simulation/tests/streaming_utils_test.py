@@ -13,9 +13,31 @@ import pytest
 
 from are.simulation.utils.streaming_utils import (
     SequentialExecutor,
-    TerminableProcessPoolExecutor,
     stream_pool,
+    TerminableProcessPoolExecutor,
 )
+
+
+# Module-level functions for process executor tests (to avoid pickling issues)
+def square(x):
+    """Square function for testing."""
+    return x * x
+
+
+def process_with_delay(x):
+    """Processing function with variable delay for timeout testing."""
+    # Items 0, 2, 4 complete quickly, items 1, 3 take longer than the timeout
+    if x % 2 == 0:
+        time.sleep(0.01)  # Very quick
+    else:
+        time.sleep(2.0)  # Much longer than the timeout
+    return x * x
+
+
+def long_running_task(x):
+    """Long running task for termination testing."""
+    time.sleep(10)  # Long running task
+    return x
 
 
 @pytest.mark.parametrize("executor_type", ["sequential", "thread", "process"])
@@ -23,10 +45,6 @@ def test_stream_process_basic_functionality(executor_type):
     """Test basic functionality of stream_pool with different executor types."""
     # Create a simple iterator of numbers
     numbers = iter(range(10))
-
-    # Define a simple processing function that squares the input
-    def square(x):
-        return x * x
 
     # Process the numbers using the stream processor
     results = []
@@ -91,15 +109,6 @@ def test_stream_process_timeout_handling(executor_type):
     """Test that stream_pool properly handles timeouts."""
     # Create a simple iterator of numbers
     numbers = iter(range(5))
-
-    # Define a processing function that sleeps for a variable amount of time
-    def process_with_delay(x):
-        # Items 0, 2, 4 complete quickly, items 1, 3 take longer than the timeout
-        if x % 2 == 0:
-            time.sleep(0.01)  # Very quick
-        else:
-            time.sleep(2.0)  # Much longer than the timeout
-        return x * x
 
     # Process the numbers using the stream processor with a short timeout
     success_results = []
@@ -294,9 +303,9 @@ def test_stream_process_order_preservation():
     last_large_pos = max(results.index(x) for x in range(5, 10) if x in results)
 
     # The last large number should come before the first small number
-    assert last_large_pos < first_small_pos, (
-        f"Expected all large numbers to come before small numbers, but got: {results}"
-    )
+    assert (
+        last_large_pos < first_small_pos
+    ), f"Expected all large numbers to come before small numbers, but got: {results}"
 
 
 def test_stream_process_with_kwargs():
@@ -432,9 +441,6 @@ def test_terminable_process_pool_executor_basic():
     """Test TerminableProcessPoolExecutor basic functionality."""
     with TerminableProcessPoolExecutor(max_workers=2) as executor:
 
-        def square(x):
-            return x * x
-
         future = executor.submit(square, 5)
         result = future.result()
         assert result == 25
@@ -444,10 +450,6 @@ def test_terminable_process_pool_executor_basic():
 def test_terminable_process_pool_executor_termination():
     """Test TerminableProcessPoolExecutor can terminate long-running processes."""
     with TerminableProcessPoolExecutor(max_workers=1) as executor:
-
-        def long_running_task(x):
-            time.sleep(10)  # Long running task
-            return x
 
         future = executor.submit(long_running_task, 5)
 
