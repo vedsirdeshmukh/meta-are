@@ -4,10 +4,12 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+from __future__ import annotations
 
 import concurrent.futures
 import logging
 import multiprocessing
+import multiprocessing.context
 import os
 import signal
 import threading
@@ -125,7 +127,9 @@ class TerminableFuture(concurrent.futures.Future):
     """A future that allows termination of the underlying process."""
 
     def __init__(
-        self, process: multiprocessing.Process, result_queue: multiprocessing.Queue
+        self,
+        process: multiprocessing.Process | multiprocessing.context.ForkProcess,
+        result_queue: multiprocessing.Queue,
     ):
         super().__init__()
         self._process = process

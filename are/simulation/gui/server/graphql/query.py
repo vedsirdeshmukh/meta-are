@@ -8,7 +8,6 @@
 import os
 
 import strawberry
-from strawberry.scalars import JSON
 
 from are.simulation.gui.server.graphql.common import make_async
 from are.simulation.gui.server.graphql.types import (
@@ -19,6 +18,7 @@ from are.simulation.gui.server.graphql.types import (
 )
 from are.simulation.gui.server.scenarios import GUI_SCENARIOS
 from are.simulation.types import CapabilityTag
+from strawberry.scalars import JSON
 
 
 @strawberry.type
@@ -47,7 +47,7 @@ class Query:
 
     @strawberry.field
     @make_async
-    def agent_name(self, session_id: str) -> str | None:
+    def agent_name(self, session_id: str) -> str | None:  # type: ignore
         if Query.server is None:
             raise ValueError("Query.server is not initialized.")
         are_simulation_instance = Query.server.get_or_create_are_simulation(session_id)
@@ -55,7 +55,7 @@ class Query:
 
     @strawberry.field
     @make_async
-    def agent_config(self, session_id: str) -> JSON | None:
+    def agent_config(self, session_id: str) -> JSON | None:  # type: ignore
         if Query.server is None:
             raise ValueError("Query.server is not initialized.")
         are_simulation_instance = Query.server.get_or_create_are_simulation(session_id)
@@ -291,7 +291,7 @@ class Query:
 
     @strawberry.field
     @make_async
-    def get_interactive_scenarios_tree(self) -> JSON | None:
+    def get_interactive_scenarios_tree(self) -> JSON | None:  # type: ignore
         """
         Get the interactive scenarios tree from a JSON file if INTERACTIVE_SCENARIOS_TREE environment variable is set.
 

@@ -13,8 +13,8 @@ import pytest
 
 from are.simulation.utils.streaming_utils import (
     SequentialExecutor,
-    stream_pool,
     TerminableProcessPoolExecutor,
+    stream_pool,
 )
 
 
@@ -303,9 +303,9 @@ def test_stream_process_order_preservation():
     last_large_pos = max(results.index(x) for x in range(5, 10) if x in results)
 
     # The last large number should come before the first small number
-    assert (
-        last_large_pos < first_small_pos
-    ), f"Expected all large numbers to come before small numbers, but got: {results}"
+    assert last_large_pos < first_small_pos, (
+        f"Expected all large numbers to come before small numbers, but got: {results}"
+    )
 
 
 def test_stream_process_with_kwargs():
@@ -440,7 +440,6 @@ def test_sequential_executor_context_manager():
 def test_terminable_process_pool_executor_basic():
     """Test TerminableProcessPoolExecutor basic functionality."""
     with TerminableProcessPoolExecutor(max_workers=2) as executor:
-
         future = executor.submit(square, 5)
         result = future.result()
         assert result == 25
@@ -450,7 +449,6 @@ def test_terminable_process_pool_executor_basic():
 def test_terminable_process_pool_executor_termination():
     """Test TerminableProcessPoolExecutor can terminate long-running processes."""
     with TerminableProcessPoolExecutor(max_workers=1) as executor:
-
         future = executor.submit(long_running_task, 5)
 
         # Let it start, then terminate
