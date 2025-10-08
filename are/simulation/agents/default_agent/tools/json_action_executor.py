@@ -89,9 +89,11 @@ def get_observation_log(
 
 
 class JsonActionExecutor(BaseActionExecutor):
-    def __init__(self, tools: dict[str, Tool] = {}, use_custom_logger: bool = True):
+    def __init__(
+        self, tools: dict[str, Tool] | None = None, use_custom_logger: bool = True
+    ):
         super().__init__(use_custom_logger=use_custom_logger)
-        self.tools = tools
+        self.tools = tools if tools is not None else {}
         self.tool_parser = parse_json_tool_call
         self.action_token = "Action:"
         self.thought_token = "Thought:"

@@ -56,7 +56,7 @@ jobs:
       - uses: ./.github/actions/setup-python-uv
       - name: Run Python linting
         working-directory: ${{ env.WORKING_DIR }}
-        run: uvx -p3.10 --with flake8-tidy-imports --with flake8 ruff check .
+        run: uvx -p3.12 --with flake8-tidy-imports --with flake8 ruff check .
 
   python-formatting:
     runs-on: ubuntu-latest
@@ -73,8 +73,8 @@ jobs:
       - name: Run Python formatting checks
         working-directory: ${{ env.WORKING_DIR }}
         run: |
-          uvx -p3.10 --with flake8-tidy-imports --with flake8 ruff check --select I .
-          uvx -p3.10 ruff format --check .
+          uvx -p3.12 --with flake8-tidy-imports --with flake8 ruff check --select I .
+          uvx -p3.12 ruff format --check .
 
   python-typing:
     runs-on: ubuntu-latest

@@ -1,6 +1,6 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates.
 # All rights reserved.
-# 
+#
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
@@ -16,7 +16,7 @@ COPY are/simulation/gui/client .
 RUN npm run build
 
 # Stage 2 - Python build
-FROM python:3.10.14-slim AS python-builder
+FROM python:3.12.6-slim AS python-builder
 # Install uv
 ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip install uv
@@ -28,12 +28,12 @@ RUN rm -rf /app/are/simulation/gui/client
 RUN --mount=type=cache,target=/root/.cache/uv uv pip install --system -e .
 
 # Stage 3 - Final stage
-FROM python:3.10.14-slim
+FROM python:3.12.6-slim
 ARG SERVER_VERSION=unknown
 WORKDIR /app
 
 # Copy Python application and dependencies from python-builder stage
-COPY --from=python-builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=python-builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=python-builder /usr/local/bin /usr/local/bin
 COPY --from=python-builder /app /app
 

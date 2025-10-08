@@ -38,7 +38,7 @@ This approach:
 
 For users who want to dig deeper into the library, develop custom scenarios, or need local access to the codebase, you can install it with pip.
 
-the Agents Research Environments requires python `3.10.*`. We recommend using a virtual environment for installation. Using `uv venv -p 3.10` and `uv pip install` or `uv add` is the recommended approach.
+the Agents Research Environments requires python `3.12.*`. We recommend using a virtual environment for installation. Using `uv venv -p 3.12` and `uv pip install` or `uv add` is the recommended approach.
 
 .. code-block:: bash
 
@@ -92,7 +92,7 @@ If you're working on scenarios, agents, or core functionality and just need the 
 
 .. code-block:: bash
 
-   uv venv -p 3.10
+   uv venv -p 3.12
    source .venv/bin/activate
    uv pip install -e .
 

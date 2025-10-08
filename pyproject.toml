@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "meta-agents-research-environments"
-version = "1.0.1"
+version = "1.1.0"
 description = "Meta Agents Research Environments is a research-driven environment designed to simulate complex, real-life tasks that span several minutes and require multiple steps to be solved. Unlike static simulation environments, this platform introduces a dynamic setting where the state of the environment evolves and new information is continuously integrated."
 readme = "README.md"
 license = {text = "MIT License"}
-requires-python = "==3.10.*"
+requires-python = ">=3.10"
 dynamic = ["dependencies", "optional-dependencies"]
 
 [project.urls]
@@ -71,8 +71,8 @@ artifacts = ["build/**/*"]
 
 [tool.ruff]
 
-# Assume Python 3.10+
-target-version = "py310"
+# Assume Python 3.12+
+target-version = "py312"
 
 [tool.ruff.lint]
 # Default lint rules + import sort + ban some imports.

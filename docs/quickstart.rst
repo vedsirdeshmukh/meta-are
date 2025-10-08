@@ -1,7 +1,7 @@
 ..
     Copyright (c) Meta Platforms, Inc. and affiliates.
     All rights reserved.
-    
+
     This source code is licensed under the terms described in the LICENSE file in
     the root directory of this source tree.
 
@@ -32,7 +32,7 @@ Scenarios are the base of the agent benchmarking process, so understanding them 
 
 Before you begin, make sure you have:
 
-* Python 3.10 or higher
+* Python 3.12 or higher
 * `uvx` installed (comes with `uv` - see `uv installation guide <https://docs.astral.sh/uv/getting-started/installation/>`_)
 * An API key for your chosen model provider (optional for basic testing)
 
