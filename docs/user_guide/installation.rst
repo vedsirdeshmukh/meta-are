@@ -1,7 +1,7 @@
 ..
     Copyright (c) Meta Platforms, Inc. and affiliates.
     All rights reserved.
-    
+
     This source code is licensed under the terms described in the LICENSE file in
     the root directory of this source tree.
 
@@ -122,8 +122,8 @@ To verify your installation works correctly:
 
    .. code-block:: python
 
-      import are.simulation
-      print(are.simulation.__version__)
+      import are
+      print(are.__version__)
 
 2. **Run a Simple Scenario**
 
