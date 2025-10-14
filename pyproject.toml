@@ -29,35 +29,19 @@ files = ["requirements.txt"]
 [tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
 dev = ["requirements-dev.txt"]
 
-[tool.hatch.build]
-include = [
-    "are/simulation/**/*.py",
-    "are/simulation/**/*.md",
-    "are/simulation/gui/client/build/**/*",  # Include the built JavaScript files
-    "are/simulation/gui/client/src/**/*",    # Include source files for build process
-    "are/simulation/gui/client/*.json",      # Include package.json and other config files
-    "are/simulation/gui/client/*.js",        # Include config files
-    "are/simulation/gui/client/*.ts",        # Include TypeScript config files
-    "are/simulation/gui/client/index.html",  # Include HTML template
-]
-exclude = [
-    "are/simulation/gui/client/node_modules/**",
-    "are/simulation/datasets/**",
-    "**/__pycache__/**",
-    "**/*.pyc",
-]
 
 [tool.hatch.build.targets.wheel]
-packages = ["are"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "are",
-    "build_hooks",
-    "README.md",
-    "LICENSE",
-    "requirements.txt",
-    "requirements-dev.txt",
+only-include = ["are"]
+sources = {"are" = "are"}
+exclude = [
+    "are/simulation/gui/client/node_modules/**",
+    "are/simulation/gui/client/src/**", 
+    "are/simulation/gui/client/.vite/**",
+    "are/simulation/gui/client/*.json",
+    "are/simulation/gui/client/*.js", 
+    "are/simulation/gui/client/*.ts",
+    "are/simulation/gui/client/index.html",
+    "are/simulation/datasets/**",
 ]
 
 [[tool.hatch.build.hooks.build-scripts.scripts]]
@@ -66,8 +50,6 @@ work_dir = "."
 commands = [
     "python build_hooks/build_gui.py",
 ]
-out_dir = "are/simulation/gui/client"
-artifacts = ["build/**/*"]
 
 [tool.ruff]
 
