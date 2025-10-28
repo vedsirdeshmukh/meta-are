@@ -65,8 +65,13 @@ class HuggingFaceLLMEngine(LLMEngine):
 
         # api_key will need to be parametrizable to the provider's token to be more general
         api_key = os.getenv("HF_INFERENCE_TOKEN") or os.getenv("HF_TOKEN")
+        base_url = os.getenv("HF_BASE_URL")
+
+        if base_url:
+            logger.info(f"Using custom base URL: {base_url}")
 
         self.client = InferenceClient(
+            base_url=base_url or None,
             bill_to=os.getenv("HF_BILL_TO") or None,
             provider=model_config.provider,  # type: ignore
             api_key=api_key,
@@ -125,7 +130,7 @@ class HuggingFaceLLMEngine(LLMEngine):
         response = self.client.chat.completions.create(
             model=self.model_config.model_name,
             messages=converted_messages,
-            stop=stop_sequences,
+            # stop=stop_sequences,
         )
 
         if not isinstance(response, ChatCompletionOutput):

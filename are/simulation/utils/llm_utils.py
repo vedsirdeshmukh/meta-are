@@ -9,8 +9,8 @@ import logging
 
 from are.simulation.agents.llm.llm_engine import ModelConfig
 
-DEFAULT_MODEL = "meta-llama/llama3-70b-instruct"
-DEFAULT_PROVIDER = "huggingface"
+DEFAULT_MODEL = "openai/gpt-4o"
+DEFAULT_PROVIDER = "openai"
 DEFAULT_APP_AGENT = "default_app_agent"
 
 logger = logging.getLogger(__name__)

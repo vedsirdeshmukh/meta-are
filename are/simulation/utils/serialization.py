@@ -17,7 +17,7 @@ def serialize_field(value: Any) -> Any:
     """
     Serialize a field value to a JSON-compatible format.
 
-    This function handles dataclasses, Enums, lists, and dictionaries by converting
+    This function handles dataclasses, Enums, lists, sets, and dictionaries by converting
     them to their serializable equivalents.
 
     :param value: The value to serialize
@@ -29,6 +29,8 @@ def serialize_field(value: Any) -> Any:
         return asdict(value)
     elif isinstance(value, Enum):
         return value.value
+    elif isinstance(value, set):
+        return [serialize_field(item) for item in sorted(value)]
     elif isinstance(value, list):
         return [serialize_field(item) for item in value]
     elif isinstance(value, dict):
@@ -42,7 +44,7 @@ def make_serializable(value: Any) -> Any:
     Convert data to a format compatible with any method of serialization.
 
     This function handles various data types including dataclasses, Enums, lists,
-    dictionaries, and primitive types. It ensures that the data is converted into
+    sets, dictionaries, and primitive types. It ensures that the data is converted into
     a format that can be serialized into JSON or Pickle. For unsupported types, it removes
     non-deterministic memory addresses from the string representation.
 
@@ -57,6 +59,8 @@ def make_serializable(value: Any) -> Any:
         }
     elif isinstance(value, Enum):
         return value.value
+    elif isinstance(value, set):
+        return [make_serializable(item) for item in sorted(value)]
     elif isinstance(value, list):
         return [make_serializable(item) for item in value]
     elif isinstance(value, dict):
